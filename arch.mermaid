@@ -1,0 +1,31 @@
+flowchart LR
+    %% Источники событий
+    subgraph Sources [Микросервисы-источники]
+        direction TB
+        Cart[Корзина]
+        Orders[Заказы]
+        Marketing[Рассылки]
+    end
+
+    %% Инфраструктура
+    Broker[(Брокер сообщений)]
+    Notifier[Сервис нотификаций]
+    PushProviders[Провайдеры доставки\nAPNs / FCM]
+    Device[Мобильное приложение]
+
+    %% Связи
+    Cart --> Broker
+    Orders --> Broker
+    Marketing --> Broker
+    Broker --> Notifier
+    Notifier --> PushProviders
+    PushProviders --> Device
+
+    %% Стилизация
+    classDef source fill:#ffffff,stroke:#333,stroke-width:1px,color:#000000;
+    classDef infra fill:#e1f5fe,stroke:#0288d1,stroke-width:2px,color:#000000;
+    classDef external fill:#e8f5e9,stroke:#388e3c,stroke-width:2px,color:#000000;
+
+    class Cart,Orders,Marketing source;
+    class Broker,Notifier infra;
+    class PushProviders,Device external;
